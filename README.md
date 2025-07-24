@@ -1,36 +1,150 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💸 Financial Portfolio Tracker
 
-## Getting Started
+A simple full-stack web application to track stock portfolios and calculate cumulative Profit and Loss (PnL) over time.
 
-First, run the development server:
+Built using **Next.js (App Router)**, **React**, **TailwindCSS**, **ShadCN UI**, **PostgreSQL**, and **Drizzle ORM**.
+
+---
+
+## 🧱 Features
+
+- Create and manage multiple portfolios
+- Add, edit, and delete trades (ticker, price, quantity, date)
+- Switch between portfolios
+- Calculate cumulative PnL
+- Responsive dashboard UI
+- Toast notifications on actions
+- Clean modular service architecture
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/andre-zaguette/portfolio-tracker.git
+cd portfolio-tracker
+```
+
+### 2. Set up environment variables
+
+Create a `.env` file in the root directory:
+
+```env
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/portfolio_db
+```
+
+---
+
+### 3. Start PostgreSQL with Docker
+
+```bash
+docker run --name portfolio-db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=portfolio_db -p 5432:5432 -d postgres
+```
+
+> You can also use Docker Compose if preferred.
+
+---
+
+### 4. Install dependencies
+
+```bash
+npm install
+```
+
+---
+
+### 5. Apply Drizzle migrations
+
+```bash
+npm run drizzle:generate
+npm run drizzle:push
+```
+
+_Or manually using the CLI:_
+
+```bash
+npx drizzle-kit push:pg
+```
+
+---
+
+### 6. Start the app
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> App will be available at: http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧪 Example CURL Commands
 
-## Learn More
+### ✅ Create a Portfolio
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+curl -X POST http://localhost:3000/api/portfolio \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Tech Portfolio", "initialValue": 50000}'
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📈 Create a Trade
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+curl -X POST http://localhost:3000/api/trade \
+  -H "Content-Type: application/json" \
+  -d '{
+    "portfolioId": 1,
+    "ticker": "AAPL",
+    "entryPrice": 150,
+    "exitPrice": 160,
+    "quantity": 10,
+    "date": "2024-01-01"
+  }'
+```
 
-## Deploy on Vercel
+### 🧾 Get Portfolios
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+curl http://localhost:3000/api/portfolio
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🏗️ Architecture Overview
+
+- **Frontend**: Built with Next.js App Router, TailwindCSS and ShadCN components for consistent UI.
+- **State Management**: Local state and `useContext` used to manage the active portfolio.
+- **Backend**: Routes under `/api/` handle all data operations via Drizzle.
+- **Services**: API calls are wrapped in service modules for better abstraction and reuse.
+- **Database**: PostgreSQL schema managed with Drizzle ORM.
+
+---
+
+## 📊 Bonus Features
+
+- Toasts for success/error handling
+- Loading indicators
+- Modular file structure
+- Type safety with TypeScript
+- Trade editing and deletion with confirmation
+
+---
+
+## 🧹 Scripts
+
+```bash
+# Format code
+npm run format
+
+# Run Drizzle studio or inspect schema
+npx drizzle-kit studio
+```
+
+---
+
+## 📝 License
+
+MIT — feel free to use and adapt!
