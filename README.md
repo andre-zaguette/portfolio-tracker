@@ -45,6 +45,10 @@ docker run --name portfolio-db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=po
 
 > You can also use Docker Compose if preferred.
 
+```bash
+docker compose up -d
+```
+
 ---
 
 ### 4. Install dependencies
@@ -58,8 +62,8 @@ npm install
 ### 5. Apply Drizzle migrations
 
 ```bash
-npm run drizzle:generate
-npm run drizzle:push
+npm run generate:migrations
+npm run migrate
 ```
 
 _Or manually using the CLI:_
@@ -125,23 +129,9 @@ curl http://localhost:3000/api/portfolio
 
 ## 📊 Bonus Features
 
-- Toasts for success/error handling
-- Loading indicators
 - Modular file structure
 - Type safety with TypeScript
 - Trade editing and deletion with confirmation
-
----
-
-## 🧹 Scripts
-
-```bash
-# Format code
-npm run format
-
-# Run Drizzle studio or inspect schema
-npx drizzle-kit studio
-```
 
 ---
 
